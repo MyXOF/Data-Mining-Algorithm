@@ -30,7 +30,7 @@ def convert_point_to_label(dictionary, group_list):
     for group in group_list:
         lable_list = []
         for point in group:
-            lable_list.append(dictionary["%s-%s" % (point[0], point[1])])
+            lable_list.append(dictionary[geneate_point_name(point)])
         label_group.append(lable_list)
     return label_group
     pass
@@ -58,7 +58,7 @@ def calculate_total_purity(label_list, label_num):
 def calculate_single_purity_pair(label_list):
     label_num = len(label_list)
     if label_num == 0:
-        return 0
+        return (0, 0)
     static = {}
     for label in label_list:
         if label not in static:
@@ -77,10 +77,12 @@ def calculate_single_purity(label_list):
 def generate_point_label_dict(point_set, label_set):
     statics = {}
     for item in list(zip(point_set, label_set)):
-        statics["%s-%s" % (item[0][0], item[0][1])] = item[1]
+        statics[geneate_point_name(item[0])] = item[1]
     return statics
     pass
 
+def geneate_point_name(point):
+    return "-".join(list(map(lambda x:str(x), point)))
 
 def generate_occurrence_of_label(label_set):
     statics = {}
