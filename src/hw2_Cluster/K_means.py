@@ -1,6 +1,8 @@
+from src.hw2_Cluster import *
 from src.hw2_Cluster.Utils import *
 import random
 from functools import reduce
+from datetime import datetime
 
 
 def rand_centroids(point_set, k):
@@ -70,28 +72,43 @@ def calculate_nearest_centroid(point, centroids):
 
 
 def calculate_centroids_from_group(groups):
-    return sorted(list(map(lambda group: calcalate_centroid_for_group(group), groups)),key=lambda item:item[0])
+    return sorted(list(map(lambda group: calcalate_centroid_for_group(group), groups)), key=lambda item: item[0])
     pass
 
 
-def is_centroids_equal(centroids_1,centroids_2):
+def is_centroids_equal(centroids_1, centroids_2):
     return (centroids_1 > centroids_2) - (centroids_2 > centroids_1)
 
-if __name__ == "__main__":
-    k = 10
-    point_set = read_data_from_file("../../data/hw2/dataset1.dat")
+
+def kmeans_algroithm(k, data_file_path, label_file_path):
+    point_set = read_data_from_file(data_file_path, DATA_FILE_SPILTOR)
+    label_set = read_data_from_file(label_file_path, NO_SPILTOR)
+    label_dict = generate_point_label_dict(point_set, label_set)
+    min_len = min(len(point_set), len(label_set))
+    point_set = point_set[0:min_len]
+    label_set = label_set[0:min_len]
+
+    start_time = datetime.now().timestamp()
     origin_centroids = rand_centroids(point_set, k)
-    new_centroids = calculate_centroids_from_group(arrange_group(point_set,origin_centroids,k))
+    group_arranged = arrange_group(point_set, origin_centroids, k)
+    new_centroids = calculate_centroids_from_group(group_arranged)
     count = 0
     while is_centroids_equal(origin_centroids, new_centroids) != 0:
         origin_centroids = new_centroids
-        new_centroids = calculate_centroids_from_group(arrange_group(point_set,origin_centroids,k))
+        group_arranged = arrange_group(point_set, origin_centroids, k)
+        new_centroids = calculate_centroids_from_group(group_arranged)
         count += 1
-        print(count)
+
+    end_time = datetime.now().timestamp()
+
+    label_statics = generate_occurrence_of_label(label_set)
+    label_group = convert_point_to_label(label_dict, group_arranged)
+    purity = calculate_total_purity(label_group, min_len)
+    fscore = calculate_total_fscore(label_group, min_len, label_statics)
+    return (count, end_time - start_time, purity, fscore)
 
 
-    # data_point = [[1, 2], [2, 3], [3, 4]]
-    # print(calcalate_centroid_for_group([[1, 2], [2, 3], [3, 4]]))
-    # print(arrange_group(data_point, [[1, 2], [2, 3]], 2))
-    # print(calculate_centroids_from_group(arrange_group(data_point, [[1, 2], [2, 3]], 2)))
+if __name__ == "__main__":
+
+    print(kmeans_algroithm(15,"../../data/hw2/dataset1.dat","../../data/hw2/dataset1-label.dat"))
     pass

@@ -1,0 +1,3 @@
+DATA_FILE_SPILTOR = '    '
+
+NO_SPILTOR = ""
