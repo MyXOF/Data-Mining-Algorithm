@@ -18,12 +18,18 @@ def generate_point_dict(point_set):
 def expand_cluster(point, neighbours, new_cluster, eps, min_pts, point_dict, point_set):
     new_cluster.append(point)
     point_dict[geneate_point_name(point)][1] = 2
+
+    neighbour_static = set(list(map(lambda x:str(x), neighbours)))
+
     for neighbour_point in neighbours:
         if not point_dict[geneate_point_name(neighbour_point)][0]:
             point_dict[geneate_point_name(neighbour_point)][0] = True
             another_neighbours = find_neighbours(eps, neighbour_point, point_set)
             if len(another_neighbours) >= min_pts:
-                neighbours.extend(list(filter(lambda x: not point_dict[geneate_point_name(x)][0],another_neighbours)))
+                for another_neighbour in another_neighbours:
+                    if str(another_neighbour) not in neighbour_static:
+                        neighbours.append(another_neighbour)
+                        neighbour_static.add(str(another_neighbour))
             if point_dict[geneate_point_name(neighbour_point)][1] == 1:
                 new_cluster.append(neighbour_point)
                 point_dict[geneate_point_name(neighbour_point)][1] = 2
@@ -57,7 +63,8 @@ def dbscan_algroithm(eps, min_pts, data_file_path, label_file_path):
             new_cluster = expand_cluster(point, neighbours, [], eps, min_pts, point_dict, point_set)
             group_arranged.append(new_cluster)
 
-    group_arranged.append(noise_group)
+    if len(noise_group) > 0:
+        group_arranged.append(noise_group)
     end_time = datetime.now().timestamp()
     label_statics = generate_occurrence_of_label(label_set)
     label_group = convert_point_to_label(label_dict, group_arranged)
@@ -68,6 +75,7 @@ def dbscan_algroithm(eps, min_pts, data_file_path, label_file_path):
 
 
 if __name__ == "__main__":
-    print(dbscan_algroithm(2, 13, "../../data/hw2/dataset2.dat", "../../data/hw2/dataset2-label.dat"))
+    print(dbscan_algroithm(80000, 50, "../../data/hw2/dataset1.dat", "../../data/hw2/dataset1-label.dat"))
+    # print(dbscan_algroithm(2, 13, "../../data/hw2/dataset2.dat", "../../data/hw2/dataset2-label.dat"))
 
     pass

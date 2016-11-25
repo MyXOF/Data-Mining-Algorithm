@@ -43,9 +43,11 @@ def calculate_total_fscore(label_list, label_num, label_statics):
 
 def calculate_single_fscore(label_list, label_statics):
     (label_name, label_num) = calculate_single_purity_pair(label_list)
-    precision = label_num / len(label_list)
+    if len(label_list) == 0:
+        return 0
+    else:
+        precision = label_num / len(label_list)
     recall = label_num / label_statics[label_name]
-    # print("%s--%s"%([precision,recall]))
     return calculate_fscore(recall, precision)
     pass
 
