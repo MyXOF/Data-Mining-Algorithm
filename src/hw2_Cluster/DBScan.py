@@ -20,9 +20,12 @@ def expand_cluster(point, neighbours, new_cluster, eps, min_pts, point_dict, poi
     point_dict[geneate_point_name(point)][1] = 2
 
     neighbour_static = set(list(map(lambda x:str(x), neighbours)))
-
+    i = 0
     for neighbour_point in neighbours:
+        i += 1
+
         if not point_dict[geneate_point_name(neighbour_point)][0]:
+            print("%d: %d" %(i,len(neighbours)))
             point_dict[geneate_point_name(neighbour_point)][0] = True
             another_neighbours = find_neighbours(eps, neighbour_point, point_set)
             if len(another_neighbours) >= min_pts:
@@ -75,7 +78,7 @@ def dbscan_algroithm(eps, min_pts, data_file_path, label_file_path):
 
 
 if __name__ == "__main__":
-    print(dbscan_algroithm(80000, 50, "../../data/hw2/dataset1.dat", "../../data/hw2/dataset1-label.dat"))
+    print(dbscan_algroithm(50000, 140, "../../data/hw2/dataset1.dat", "../../data/hw2/dataset1-label.dat"))
     # print(dbscan_algroithm(2, 13, "../../data/hw2/dataset2.dat", "../../data/hw2/dataset2-label.dat"))
 
     pass
