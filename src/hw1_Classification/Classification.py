@@ -1,5 +1,6 @@
 from sklearn import tree, svm
 from src.hw1_Classification import *
+from sklearn.ensemble import RandomForestClassifier
 
 
 def read_from_file(path):
@@ -47,7 +48,8 @@ def generate_value(name, known_list):
 
 if __name__ == "__main__":
     # clf = tree.DecisionTreeClassifier()
-    clf = svm.SVC()
+    clf = RandomForestClassifier(n_estimators=10)
+    # clf = svm.SVC()
 
     train_set = read_from_file("../../data/hw1/adult.data.txt")
     clf = clf.fit(train_set[0], train_set[1])
