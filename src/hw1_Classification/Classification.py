@@ -46,8 +46,8 @@ def generate_value(name, known_list):
 
 
 if __name__ == "__main__":
-    clf = tree.DecisionTreeClassifier()
-    # clf = svm.SVC()
+    # clf = tree.DecisionTreeClassifier()
+    clf = svm.SVC()
 
     train_set = read_from_file("../../data/hw1/adult.data.txt")
     clf = clf.fit(train_set[0], train_set[1])

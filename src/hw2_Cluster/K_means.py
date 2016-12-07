@@ -98,6 +98,7 @@ def kmeans_algroithm(k, data_file_path, label_file_path):
         group_arranged = arrange_group(point_set, origin_centroids, k)
         new_centroids = calculate_centroids_from_group(group_arranged)
         count += 1
+        # print(count)
 
     end_time = datetime.now().timestamp()
 
@@ -109,6 +110,14 @@ def kmeans_algroithm(k, data_file_path, label_file_path):
 
 
 if __name__ == "__main__":
+    REPEAT_NUM = 10
 
-    print(kmeans_algroithm(15,"../../data/hw2/dataset1.dat","../../data/hw2/dataset1-label.dat"))
+    for k in range(10,20):
+        p_avg = []
+        f_avg = []
+        for i in range(0,REPEAT_NUM):
+            result = kmeans_algroithm(k,"../../data/hw2/dataset1.dat","../../data/hw2/dataset1-label.dat")
+            p_avg.append(result[2])
+            f_avg.append(result[3])
+        print("%s,%s,%s" % (str(k), str(sum(p_avg) / REPEAT_NUM), str(sum(f_avg) / REPEAT_NUM)))
     pass
