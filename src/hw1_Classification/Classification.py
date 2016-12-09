@@ -21,19 +21,19 @@ def read_from_file(path):
 
 def generate_feature(input_args):
     feature = list()
-    feature.append(int(input_args[0]))
+    feature.append(int(input_args[0]) // 10)
     feature.append(generate_value(input_args[1], workclass))
-    feature.append(int(input_args[2]))
+    feature.append(int(input_args[2]) // 10000)
     feature.append(generate_value(input_args[3], education))
-    feature.append(int(input_args[4]))
+    feature.append(int(input_args[4]) // 4)
     feature.append(generate_value(input_args[5], marital_status))
     feature.append(generate_value(input_args[6], occupation))
     feature.append(generate_value(input_args[7], relationship))
     feature.append(generate_value(input_args[8], race))
     feature.append(generate_value(input_args[9], sex))
-    feature.append(int(input_args[10]))
+    feature.append(int(input_args[10]) // 1000)
     feature.append(int(input_args[11]))
-    feature.append(int(input_args[12]))
+    feature.append(int(input_args[12]) // 10)
     feature.append(generate_value(input_args[13], native_country))
     return feature
     pass
@@ -48,8 +48,8 @@ def generate_value(name, known_list):
 
 if __name__ == "__main__":
     # clf = tree.DecisionTreeClassifier()
-    clf = RandomForestClassifier(n_estimators=10)
-    # clf = svm.SVC()
+    # clf = RandomForestClassifier(n_estimators=10)
+    clf = svm.SVC()
 
     train_set = read_from_file("../../data/hw1/adult.data.txt")
     clf = clf.fit(train_set[0], train_set[1])
