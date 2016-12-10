@@ -78,27 +78,27 @@ def dbscan_algroithm(min_pts, point_set, min_len, two_point_dinstance, label_set
 
 
 if __name__ == "__main__":
-    EPS = 2
-    MIN_PTS = 13
-
-    point_set_tmp = read_data_from_file("../../data/hw2/dataset2.dat", DATA_FILE_SPILTOR)
-    label_set_tmp = read_data_from_file("../../data/hw2/dataset2-label.dat", NO_SPILTOR)
-
-    min_len = min(len(point_set_tmp), len(label_set_tmp))
-    point_set = []
-
-    for i in range(0, min_len):
-        point_set.append((point_set_tmp[i], i, label_set_tmp[i]))
-
-    two_point_dinstance = []
-
-    for i in range(0, min_len):
-        two_point_dinstance.append([0] * (min_len - i))
-        for j in range(i, min_len):
-            two_point_dinstance[i][j - i] = calculate_euclidean_distance(point_set[i][0], point_set[j][0])
-
-    two_point_dinstance_flag = list(map(lambda a: list(map(lambda b: b <= EPS, a)), two_point_dinstance))
-
-    print(dbscan_algroithm(MIN_PTS, point_set, min_len, two_point_dinstance_flag, label_set_tmp))
+    # EPS = 2
+    # MIN_PTS = 13
+    #
+    # point_set_tmp = read_data_from_file("../../data/hw2/dataset2.dat", DATA_FILE_SPILTOR)
+    # label_set_tmp = read_data_from_file("../../data/hw2/dataset2-label.dat", NO_SPILTOR)
+    #
+    # min_len = min(len(point_set_tmp), len(label_set_tmp))
+    # point_set = []
+    #
+    # for i in range(0, min_len):
+    #     point_set.append((point_set_tmp[i], i, label_set_tmp[i]))
+    #
+    # two_point_dinstance = []
+    #
+    # for i in range(0, min_len):
+    #     two_point_dinstance.append([0] * (min_len - i))
+    #     for j in range(i, min_len):
+    #         two_point_dinstance[i][j - i] = calculate_euclidean_distance(point_set[i][0], point_set[j][0])
+    #
+    # two_point_dinstance_flag = list(map(lambda a: list(map(lambda b: b <= EPS, a)), two_point_dinstance))
+    #
+    # print(dbscan_algroithm(MIN_PTS, point_set, min_len, two_point_dinstance_flag, label_set_tmp))
 
     pass

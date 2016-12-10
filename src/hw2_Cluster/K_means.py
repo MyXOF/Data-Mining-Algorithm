@@ -111,13 +111,18 @@ def kmeans_algroithm(k, data_file_path, label_file_path):
 
 if __name__ == "__main__":
     REPEAT_NUM = 10
-
-    for k in range(10,20):
+    # print("-----------1-----------")
+    print("-----------2-----------")
+    for k in range(2, 13):
+    # for k in range(10, 30):
         p_avg = []
         f_avg = []
+        t_avg = []
         for i in range(0,REPEAT_NUM):
-            result = kmeans_algroithm(k,"../../data/hw2/dataset1.dat","../../data/hw2/dataset1-label.dat")
+            # result = kmeans_algroithm(k,"../../data/hw2/dataset1.dat","../../data/hw2/dataset1-label.dat")
+            result = kmeans_algroithm(k,"../../data/hw2/dataset2.dat","../../data/hw2/dataset2-label.dat")
+            t_avg.append(result[1])
             p_avg.append(result[2])
             f_avg.append(result[3])
-        print("%s,%s,%s" % (str(k), str(sum(p_avg) / REPEAT_NUM), str(sum(f_avg) / REPEAT_NUM)))
+        print("%s,%s,%s,%s" % (str(k), str(sum(t_avg) / REPEAT_NUM), str(sum(p_avg) / REPEAT_NUM), str(sum(f_avg) / REPEAT_NUM)))
     pass
